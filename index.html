@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>index.knit</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R programmation - Master</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Examen</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="mailto:&lt;gillet.olivier@outlook.fr&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://github.com/ogillet/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<style>
+body {text-align: justify}
+</style>
+<div id="objectif-de-votre-exercice" class="section level1">
+<h1>Objectif de votre exercice</h1>
+<ul>
+<li>Réaliser une analyse spatiale des</li>
+</ul>
+<p>Le TD va se dérouler en 4 temps :<br />
+1 - Créer un point spatialisé afin de localiser au cœur de la ville de Rouen<br />
+2 - Requêter OSM pour extraire les données d’intérêt (bars, restaurants, magasins, …)<br />
+3 - Réaliser une zone tampon puis identifier les lieux les plus proches de vous<br />
+4 - Produire une statistique sur la distribution spatiales de ces derniers</p>
+<div id="htmlwidget-b183f991bcdd7c8c77df" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b183f991bcdd7c8c77df">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[49.443245916767,1.08839275330228],13,[]],"calls":[{"method":"addProviderTiles","args":["Stamen.Toner",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[49.443245916767,1.08839275330228,{"iconUrl":{"data":"https://cdn-icons-png.flaticon.com/512/10/10966.png","index":0},"iconWidth":25,"iconHeight":25},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[49.443245916767,49.443245916767],"lng":[1.08839275330228,1.08839275330228]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-12b06b48b2559667259c" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-12b06b48b2559667259c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[49.443245916767,1.08839275330228],13,[]],"calls":[{"method":"addProviderTiles","args":["Stamen.Toner",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[[49.4426112,49.4463886,49.4434013,49.4443796,49.443426,49.4443137,49.4443446,49.4435625,49.443408,49.444282,49.4443072,49.4435347,49.4729173,49.4728095,49.4729113,49.4729096,49.4728279,49.4729288,49.4728353,49.4728402,49.4430669,49.439367,49.5569583,49.4414929,49.4379574,49.443413,49.4443604,49.4408467,49.2871666,49.4438124,49.4410123,49.4705947,49.4377919,49.4368631,49.4728302,49.4728753,49.4728642,49.4434722,49.3027399,49.3066605],[1.0979256,1.0702539,1.0894123,1.0874446,1.0893171,1.0873054,1.0874706,1.0893937,1.0894375,1.0873353,1.0873113,1.0895072,1.0489072,1.0488619,1.048913,1.0488549,1.0489906,1.0489739,1.0489857,1.0490336,1.0738274,1.1005178,0.9531588,1.0910901,1.1001992,1.0893704,1.0874582,1.1001784,1.0092892,1.0875592,1.0731278,1.0829615,1.1009467,1.099366,1.0489663,1.0488745,1.0488302,1.0894728,1.1807281,1.2399445],{"iconUrl":{"data":"https://cdn-icons-png.flaticon.com/512/6263/6263454.png","index":0},"iconWidth":25,"iconHeight":25},null,"Bars",{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircles","args":[49.443245916767,1.08839275330228,10,null,"Ma position",{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":1,"fill":"red","fillColor":"red","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addLayersControl","args":[[],["Ma position","Bars"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]}],"limits":{"lat":[49.2871666,49.5569583],"lng":[0.9531588,1.2399445]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1ba831a2a2bfe5cfc554" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1ba831a2a2bfe5cfc554">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[49.443245916767,1.08839275330228],13,[]],"calls":[{"method":"addProviderTiles","args":["Stamen.Toner",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addPolygons","args":[[[[{"lng":[1.10217286495782,1.1021713167426,1.10213200300197,1.10205503252053,1.10194061727999,1.101789071867,1.10160081260019,1.10137635637867,1.10111631925556,1.10082141474018,1.10049245183409,1.10013033280607,1.09973605071247,1.0993106866697,1.09885540688639,1.09837145946346,1.09786017097086,1.0973229428104,1.09676124737463,1.09617662401241,1.09557067481201,1.09494506021348,1.09430149446216,1.09364174091569,1.09296760721758,1.09228094035008,1.09158362158027,1.09087756131277,1.09016469386332,1.08944697216729,1.08872636243761,1.08800483878664,1.08728437782647,1.08656695326251,1.08585453049499,1.08514906124296,1.08445247820552,1.0837666897748,1.08309357481491,1.08243497752129,1.08179270237426,1.08116850920064,1.08056410835676,1.0799811560462,1.07942124978474,1.0788859240252,1.0783766459539,1.07789481147039,1.07744174136128,1.07701867767892,1.07662678033456,1.07626712391563,1.0759406947357,1.07564838812539,1.07539100597163,1.07516925451214,1.07498374239124,1.07483497898241,1.07472337298231,1.0746492312802,1.07461275810597,1.07461405445932,1.07465311782158,1.07472984215134,1.07484401816379,1.07499533389331,1.07518337553773,1.07540762858225,1.07566747919982,1.07596221592448,1.07629103159304,1.07665302554989,1.07704720610898,1.07747249326634,1.0779277216557,1.07841164373923,1.07892293322461,1.07946018869915,1.08002193747102,1.08060663960704,1.08121269215584,1.08183843354507,1.08248214814027,1.08314207095301,1.08381639248528,1.08450326369687,1.08520080108186,1.08590709184044,1.08662019913157,1.08733816739211,1.08805902770772,1.08878080322058,1.08950151455915,1.09021918527479,1.09093184727042,1.09163754620593,1.09233434686576,1.09302033847348,1.09369363993893,1.09435240502326,1.09499482740781,1.09561914565259,1.09622364803097,1.09680667722693,1.09736663488233,1.09790198598125,1.09841126305975,1.09889307022918,1.09934608700217,1.09976907191073,1.10016086590668,1.10052039553489,1.10084667587093,1.10113881321497,1.10139600753457,1.10161755464998,1.10180284815571,1.10195138107347,1.1020627472319,1.10213664236952,1.10217286495782],"lat":[49.4434627016585,49.4429921476983,49.4425222912032,49.4420544199824,49.4415898163711,49.4411297537157,49.4406754928853,49.440228278817,49.4397893371051,49.4393598706444,49.4389410563352,49.43853404186,49.4381399425408,49.4377598382851,49.437394770629,49.437045739886,49.4367137024084,49.4363995679693,49.4361041972731,49.4358283995992,49.4355729305875,49.4353384901704,49.4351257206579,49.4349352049796,49.4347674650901,49.4346229605406,49.4345020872221,49.4344051762818,49.4343324932175,49.4342842371514,49.434260540285,49.4342614675378,49.4342870163695,49.4343371167869,49.4344116315358,49.434510356476,49.4346330211399,49.4347792894723,49.4349487607501,49.4351409706781,49.4353553926598,49.4355914392376,49.4358484637005,49.4361257618536,49.4364225739452,49.4367380867454,49.4370714357725,49.4374217076583,49.4377879426482,49.4381691372289,49.4385642468748,49.4389721889083,49.4393918454637,49.4398220665483,49.440261673192,49.4407094606757,49.4411642018311,49.4416246504025,49.4420895444607,49.4425576098609,49.4430275637332,49.443498117999,49.4439679829004,49.444435870536,49.444900498391,49.4453605928531,49.445814892705,49.4462621525819,49.4467011463876,49.4471306706566,49.4475495478553,49.4479566296121,49.4483507998679,49.4487309779379,49.4490961214773,49.4494452293413,49.4497773443327,49.4500915558288,49.4503870022813,49.4506628735807,49.4509184132804,49.4511529206735,49.4513657527163,49.4515563257941,49.4517241173234,49.451868667187,49.4519895789978,49.4520865211867,49.4521592279134,49.4522074997966,49.4522312044615,49.4522302769032,49.4522047196653,49.452154602833,49.4520800638404,49.4519813070934,49.4518586034081,49.4517122892671,49.4515427658955,49.4513504981591,49.4511360132879,49.4508998994286,49.4506428040291,49.4503654320617,49.4500685440868,49.4497529541655,49.4494195276247,49.4490691786819,49.4487028679356,49.4483215997295,49.4479264193955,49.447518410386,49.4470986913004,49.4466684128162,49.4462287545328,49.4457809217349,49.4453261420873,49.4448656622674,49.4444007445467,49.4439326633294,49.4434627016585]}]]],null,"Zone tampon",{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.5,"fill":true,"fillColor":"red","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircles","args":[[49.4426112,49.4463886,49.4434013,49.4443796,49.443426,49.4443137,49.4443446,49.4435625,49.443408,49.444282,49.4443072,49.4435347,49.4729173,49.4728095,49.4729113,49.4729096,49.4728279,49.4729288,49.4728353,49.4728402,49.4430669,49.439367,49.5569583,49.4414929,49.4379574,49.443413,49.4443604,49.4408467,49.2871666,49.4438124,49.4410123,49.4705947,49.4377919,49.4368631,49.4728302,49.4728753,49.4728642,49.4434722,49.3027399,49.3066605],[1.0979256,1.0702539,1.0894123,1.0874446,1.0893171,1.0873054,1.0874706,1.0893937,1.0894375,1.0873353,1.0873113,1.0895072,1.0489072,1.0488619,1.048913,1.0488549,1.0489906,1.0489739,1.0489857,1.0490336,1.0738274,1.1005178,0.9531588,1.0910901,1.1001992,1.0893704,1.0874582,1.1001784,1.0092892,1.0875592,1.0731278,1.0829615,1.1009467,1.099366,1.0489663,1.0488745,1.0488302,1.0894728,1.1807281,1.2399445],10,null,"Bars",{"interactive":true,"className":"","stroke":true,"color":"yellow","weight":5,"opacity":1,"fill":"yellow","fillColor":"yellow","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[49.443245916767,1.08839275330228,10,null,"Ma position",{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":1,"fill":"red","fillColor":"red","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addLayersControl","args":[[],["Ma position","Zone tampon","Bars"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]}],"limits":{"lat":[49.2871666,49.5569583],"lng":[0.9531588,1.2399445]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-15873fb018158d7c76d3" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-15873fb018158d7c76d3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Stamen.Toner",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircles","args":[[49.4426112,49.4434013,49.4443796,49.443426,49.4443137,49.4443446,49.4435625,49.443408,49.444282,49.4443072,49.4435347,49.439367,49.4414929,49.443413,49.4443604,49.4408467,49.4438124,49.4434722],[1.0979256,1.0894123,1.0874446,1.0893171,1.0873054,1.0874706,1.0893937,1.0894375,1.0873353,1.0873113,1.0895072,1.1005178,1.0910901,1.0893704,1.0874582,1.1001784,1.0875592,1.0894728],10,null,"Bars",{"interactive":true,"className":"","stroke":true,"color":"yellow","weight":5,"opacity":1,"fill":"yellow","fillColor":"yellow","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[49.443245916767,1.08839275330228,10,null,"Ma position",{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":1,"fill":"red","fillColor":"red","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addLayersControl","args":[[],["Ma position","Bars  à proximité"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]}],"limits":{"lat":[49.439367,49.4443796],"lng":[1.0873054,1.1005178]}},"evals":[],"jsHooks":[]}</script>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

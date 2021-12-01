@@ -1,0 +1,144 @@
+---
+title: " "
+output: html_document
+---
+
+<style>
+body {text-align: justify}
+</style>
+
+```{r knitr_init, echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+library(leaflet)
+library(sf)
+library(dplyr)
+library(ggplot2)
+```
+
+# Objectif de votre exercice
+- Réaliser une analyse spatiale des 
+
+Le TD va se dérouler en 4 temps :  
+1 - Créer un point spatialisé afin de localiser au cœur de la ville de Rouen  
+2 - Requêter OSM pour extraire les données d'intérêt (bars, restaurants, magasins, ...)   
+3 - Réaliser une zone tampon puis identifier les lieux les plus proches de vous    
+4 - Produire une statistique sur la distribution spatiales de ces derniers   
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+longitude <- c(1.0883927533022846)
+latitude <- c(49.44324591676701)
+place <- c("Positon")
+
+df <- data.frame("place"=place,
+                 "latitude"=latitude,
+                 "longitude"=longitude)
+
+df_sf <- sf::st_as_sf(df, 
+                 coords = c("longitude", "latitude"), 
+                 crs = 4326)
+
+map <- leaflet() %>%
+  setView(lng = longitude[1], lat = latitude[1], zoom = 13) %>% 
+  addProviderTiles("Stamen.Toner") %>% 
+  addMarkers(data = df_sf,
+             icon = icons(iconUrl="https://cdn-icons-png.flaticon.com/512/10/10966.png",
+                          iconWidth = 25, 
+                          iconHeight = 25)) 
+  
+map
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+database <- osmdata::getbb("Rouen") %>% 
+  osmdata::opq() %>% 
+  osmdata::add_osm_feature(key = "amenity", value = "pub")
+
+pubs <- osmdata::osmdata_sf(database)
+pubs <- pubs$osm_points
+
+map <- leaflet() %>%
+  setView(lng = longitude[1], lat = latitude[1], zoom = 13) %>% 
+  addProviderTiles("Stamen.Toner") %>% 
+  addMarkers(data = pubs,
+             icon = icons(iconUrl="https://cdn-icons-png.flaticon.com/512/6263/6263454.png",
+                          iconWidth = 25, 
+                          iconHeight = 25),
+             group = "Bars") %>%
+    addCircles(data = df_sf,
+             color = "red",
+             fill = "red",
+             opacity = 1, 
+             group = "Ma position") %>% 
+  # Layers control
+  addLayersControl(
+    overlayGroups = c("Ma position", "Bars"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+  
+map
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+df_sf_buffer <- st_buffer(df_sf %>% st_transform(2154),1000) %>% st_transform(4326)
+
+map <- leaflet() %>%
+  setView(lng = longitude[1], lat = latitude[1], zoom = 13) %>% 
+  addProviderTiles("Stamen.Toner") %>% 
+  addPolygons(data = df_sf_buffer,fillOpacity = 0.2, group = "Zone tampon", color = 'red')%>%
+  addCircles(data = pubs,
+             color = "yellow",
+             fill = "yellow",
+             opacity = 1, 
+             group = "Bars") %>%
+  addCircles(data = df_sf,
+             color = "red",
+             fill = "red",
+             opacity = 1, 
+             group = "Ma position") %>% 
+  # Layers control
+  addLayersControl(
+    overlayGroups = c("Ma position", "Zone tampon","Bars"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+  
+map
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+pubs_nextToMe <- pubs %>%
+  filter(st_intersects(., df_sf_buffer, sparse = FALSE))
+
+map <- leaflet() %>%
+  addProviderTiles("Stamen.Toner") %>% 
+  addCircles(data = pubs_nextToMe,
+             color = "yellow",
+             fill = "yellow",
+             opacity = 1, 
+             group = "Bars") %>%
+  addCircles(data = df_sf,
+             color = "red",
+             fill = "red",
+             opacity = 1, 
+             group = "Ma position") %>% 
+  # Layers control
+  addLayersControl(
+    overlayGroups = c("Ma position", "Bars  à proximité"),
+    options = layersControlOptions(collapsed = FALSE)
+  )
+  
+map
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+distances.mx <- as.numeric((st_distance(df_sf,pubs_nextToMe)))
+distances.df <- data.frame(place=rep("bar", length(distances.mx)),distance=distances.mx)
+
+g1 <- ggplot(distances.df, aes(x=distance)) + 
+  geom_density()+    
+  labs(title="Distance density curve",x="Distance (m)", y = "Density")+
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill = "transparent",colour = NA),
+        plot.background = element_rect(fill = "transparent",colour = NA))
+g1
+```

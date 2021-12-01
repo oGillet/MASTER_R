@@ -1,0 +1,17 @@
+name: "master_R"
+navbar:
+  title: "R programmation - Master"
+  left:
+    - text: "Examen"
+      href: index.html
+  right: 
+    - icon: fa-envelope fa-lg
+      href: mailto:<gillet.olivier@outlook.fr>
+    - icon: fa-github fa-lg
+      href: http://github.com/ogillet/
+output_dir: "."
+output: 
+  html_document:
+    theme: yeti
+    toc: true
+    toc_float: true
