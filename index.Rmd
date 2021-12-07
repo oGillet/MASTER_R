@@ -8,137 +8,78 @@ body {text-align: justify}
 </style>
 
 ```{r knitr_init, echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
-library(leaflet)
-library(sf)
-library(dplyr)
+library(knitr)
+library(rmdformats)
+library(kableExtra)
 library(ggplot2)
+library(leaflet)
+
+load("results.RData")
 ```
 
-# Objectif de votre exercice
-- Réaliser une analyse spatiale des 
+![](images/EXO_MASTER1.png)
 
-Le TD va se dérouler en 4 temps :  
-1 - Créer un point spatialisé afin de localiser au cœur de la ville de Rouen  
-2 - Requêter OSM pour extraire les données d'intérêt (bars, restaurants, magasins, ...)   
-3 - Réaliser une zone tampon puis identifier les lieux les plus proches de vous    
-4 - Produire une statistique sur la distribution spatiales de ces derniers   
+L'objectif de l'exercice est de calculer le temps parcours et la distance à parcourir pour rejoindre l'arrêt de bus le plus proche et le plus éloigné dans un rayon de 2500 et 5000 mètres.
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-longitude <- c(1.0883927533022846)
-latitude <- c(49.44324591676701)
-place <- c("Positon")
+### ***Etapes***  
+1 - Créer et spatialiser un point à Rouen  
+2 - Télécharger les données OSM  
 
-df <- data.frame("place"=place,
-                 "latitude"=latitude,
-                 "longitude"=longitude)
-
-df_sf <- sf::st_as_sf(df, 
-                 coords = c("longitude", "latitude"), 
-                 crs = 4326)
-
-map <- leaflet() %>%
-  setView(lng = longitude[1], lat = latitude[1], zoom = 13) %>% 
-  addProviderTiles("Stamen.Toner") %>% 
-  addMarkers(data = df_sf,
-             icon = icons(iconUrl="https://cdn-icons-png.flaticon.com/512/10/10966.png",
-                          iconWidth = 25, 
-                          iconHeight = 25)) 
-  
-map
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r eval=F, echo=T}
 database <- osmdata::getbb("Rouen") %>% 
   osmdata::opq() %>% 
-  osmdata::add_osm_feature(key = "amenity", value = "pub")
+  osmdata::add_osm_feature(key = "public_transport", value = c("platform"))
+```
 
-pubs <- osmdata::osmdata_sf(database)
-pubs <- pubs$osm_points
+3 - Traiter les données (zone tampon, distance, intersection)  
+4 - Réaliser quelques statistiques (x2 pour une zone tampon de 2500 et 5000 mètres)  
+    * Boîte à moustaches des distances entre le point et les stations de bus   
+    * Courbe de distribution des ces mêmes distances  
+    * Temps parcours pour rejoindre l'arrêt de bus le plus proche et le plus éloigné (minutes)  
+    * Distance à parcourir parcours pour rejoindre l'arrêt de bus le plus proche et le plus éloigné (km)  
+    
+### ***Données (Inputs)***    
+- *From scratch*  
+- Librairies nécessaires  **sf**, **osrm**, **osmdata**, **dplyr**, **ggplot2**  
 
-map <- leaflet() %>%
-  setView(lng = longitude[1], lat = latitude[1], zoom = 13) %>% 
-  addProviderTiles("Stamen.Toner") %>% 
-  addMarkers(data = pubs,
-             icon = icons(iconUrl="https://cdn-icons-png.flaticon.com/512/6263/6263454.png",
-                          iconWidth = 25, 
-                          iconHeight = 25),
-             group = "Bars") %>%
-    addCircles(data = df_sf,
-             color = "red",
-             fill = "red",
-             opacity = 1, 
-             group = "Ma position") %>% 
-  # Layers control
-  addLayersControl(
-    overlayGroups = c("Ma position", "Bars"),
-    options = layersControlOptions(collapsed = FALSE)
-  )
-  
-map
+### ***Résultats (Outputs)***   
+- 2 boîtes à moustaches  
+- 2 courbes de distribution   
+- 2 temps parcours (minutes)   
+- 2 distances à parcourir (km)   
+- Un diagramme de la chaîne de traitements    
+- Un texte décrivant la chaîne de traitements et les statistiques      
+
+`r emo::ji("warning")` Votre rendu doit faire deux pages maximum et est à déposer au plus tard le  `r emo::ji("date")` 17 décembre 2021 sur [Universitice](https://universitice.univ-rouen.fr)  
+
+### ***Exemple***  
+
+1 - Créer et spatialiser un point à Rouen  
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+results$location
+```
+
+2 - Télécharger les données OSM
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+results$bus
+```
+
+3 - Traiter les données (zone tampon, distance, intersection)  
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+results$intersects
+```
+
+4 - 4 - Réaliser quelques statistiques (x2 pour une zone tampon de 2500 et 5000 mètres)  
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+results$roads
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-df_sf_buffer <- st_buffer(df_sf %>% st_transform(2154),1000) %>% st_transform(4326)
-
-map <- leaflet() %>%
-  setView(lng = longitude[1], lat = latitude[1], zoom = 13) %>% 
-  addProviderTiles("Stamen.Toner") %>% 
-  addPolygons(data = df_sf_buffer,fillOpacity = 0.2, group = "Zone tampon", color = 'red')%>%
-  addCircles(data = pubs,
-             color = "yellow",
-             fill = "yellow",
-             opacity = 1, 
-             group = "Bars") %>%
-  addCircles(data = df_sf,
-             color = "red",
-             fill = "red",
-             opacity = 1, 
-             group = "Ma position") %>% 
-  # Layers control
-  addLayersControl(
-    overlayGroups = c("Ma position", "Zone tampon","Bars"),
-    options = layersControlOptions(collapsed = FALSE)
-  )
-  
-map
+results$curveBoxplot.plot_distance
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-pubs_nextToMe <- pubs %>%
-  filter(st_intersects(., df_sf_buffer, sparse = FALSE))
-
-map <- leaflet() %>%
-  addProviderTiles("Stamen.Toner") %>% 
-  addCircles(data = pubs_nextToMe,
-             color = "yellow",
-             fill = "yellow",
-             opacity = 1, 
-             group = "Bars") %>%
-  addCircles(data = df_sf,
-             color = "red",
-             fill = "red",
-             opacity = 1, 
-             group = "Ma position") %>% 
-  # Layers control
-  addLayersControl(
-    overlayGroups = c("Ma position", "Bars  à proximité"),
-    options = layersControlOptions(collapsed = FALSE)
-  )
-  
-map
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-distances.mx <- as.numeric((st_distance(df_sf,pubs_nextToMe)))
-distances.df <- data.frame(place=rep("bar", length(distances.mx)),distance=distances.mx)
-
-g1 <- ggplot(distances.df, aes(x=distance)) + 
-  geom_density()+    
-  labs(title="Distance density curve",x="Distance (m)", y = "Density")+
-  theme_bw() + 
-  theme(panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        panel.background = element_rect(fill = "transparent",colour = NA),
-        plot.background = element_rect(fill = "transparent",colour = NA))
-g1
-```
+Les temps de parcours sont de 3 et 17 minutes à pied. Et les distances sont de 225 mètres et 1.3 kilomètres
