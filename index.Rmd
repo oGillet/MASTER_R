@@ -45,7 +45,7 @@ database <- osmdata::getbb("Rouen") %>%
 ### ***Résultats (Outputs)***   
 - 2 boîtes à moustaches  
 - 2 courbes de distribution   
-- 2 temps parcours (minutes)   
+- 2 temps de parcours (minutes)   
 - 2 distances à parcourir (km)   
 - Un diagramme de la chaîne de traitements    
 - Un texte décrivant la chaîne de traitements et les statistiques      
@@ -72,7 +72,7 @@ results$bus
 results$intersects
 ```
 
-4 - 4 - Réaliser quelques statistiques (x2 pour une zone tampon de 2500 et 5000 mètres)  
+4 - Réaliser quelques statistiques (x2 pour une zone tampon de 2500 et 5000 mètres)  
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 results$roads
@@ -82,4 +82,4 @@ results$roads
 results$curveBoxplot.plot_distance
 ```
 
-Les temps de parcours sont de 3 et 17 minutes à pied. Et les distances sont de 225 mètres et 1.3 kilomètres
+Les temps de parcours sont de **3 et 17 minutes** à pied. Et les distances sont de **225 mètres** et **1.3 kilomètres**
