@@ -48,9 +48,10 @@ database <- osmdata::getbb("Rouen") %>%
 - 2 temps de parcours (minutes)   
 - 2 distances à parcourir (km)   
 - Un diagramme de la chaîne de traitements    
-- Un texte décrivant la chaîne de traitements et les statistiques      
+- Un texte décrivant la chaîne de traitements et les statistiques    
+- Une cartographie des résultats (ggplot, ggmap, sf, ...)
 
-`r emo::ji("warning")` Votre rendu doit faire deux pages maximum et est à déposer au plus tard le  `r emo::ji("date")` 17 décembre 2021 sur [Universitice](https://universitice.univ-rouen.fr)  
+`r emo::ji("warning")` Votre rendu doit faire deux pages maximum et est à déposer au plus tard le  `r emo::ji("date")` 31 décembre 2021 sur [Universitice](https://universitice.univ-rouen.fr)  
 
 ### ***Exemple***  
 
