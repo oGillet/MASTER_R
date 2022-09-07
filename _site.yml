@@ -4,6 +4,8 @@ navbar:
   left:
     - text: "Examen"
       href: index.html
+    - text: "Rattrapage"
+      href: rattrapage.html
   right: 
     - icon: fa-envelope fa-lg
       href: mailto:<gillet.olivier@outlook.fr>
