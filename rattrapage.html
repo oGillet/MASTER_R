@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>rattrapage.knit</title>
+
+<script src="site_libs/header-attrs-2.16.1/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.1.1/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.1.1/leaflet-providers-plugin.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R programmation - Master</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Examen</a>
+</li>
+<li>
+  <a href="rattrapage.html">Rattrapage</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="mailto:&lt;gillet.olivier@outlook.fr&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://github.com/ogillet/">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<style>
+body {text-align: justify}
+</style>
+<p><img src="images/EXO_MASTER1.png" /></p>
+<p>l’objectif de cet exercice est d’étudier l’offre de restaurantion à
+proximité d’une position aléatoire sur le territoire français.</p>
+<div id="etapes" class="section level3">
+<h3><strong><em>Etapes</em></strong></h3>
+<p>1 - Créer et spatialiser un point à Rouen<br />
+2 - Télécharger les données OSM (Restaurant, fastfood, …)</p>
+<pre class="r"><code>database &lt;- osmdata::getbb(&quot;Le Havre&quot;) %&gt;% 
+  osmdata::opq() %&gt;% 
+  osmdata::add_osm_feature(key = &quot;amenity&quot;, value = c(&quot;restaurant&quot;))</code></pre>
+<p>3 - Traiter les données (zone tampon de 1000 mètres,
+intersection)<br />
+4 - Réaliser quelques statistiques * Boîte à moustaches des distances
+entre le point et les restaurants<br />
+* Déterminer le temps de parcours vers le restaurant le plus proche
+ainsi que la distance à parcourir. Puis effectuer les mêmes opération
+pour le restaurant le plus proche. * Nombre de restaurants à proximité
+….</p>
+</div>
+<div id="données-inputs" class="section level3">
+<h3><strong><em>Données (Inputs)</em></strong></h3>
+<ul>
+<li><em>From scratch</em><br />
+</li>
+<li>Librairies nécessaires <strong>sf</strong>, <strong>osrm</strong>,
+<strong>osmdata</strong>, <strong>dplyr</strong>,
+<strong>ggplot2</strong></li>
+</ul>
+</div>
+<div id="résultats-outputs" class="section level3">
+<h3><strong><em>Résultats (Outputs)</em></strong></h3>
+<p>1 - Créer et spatialiser un point de manière aléatoire sur le
+territoire français</p>
+<div id="htmlwidget-dc08004663744d5c962b" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dc08004663744d5c962b">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[49.4948863474898,0.0928278629053506],13,[]],"calls":[{"method":"addProviderTiles","args":["Stamen.Toner",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[49.4948863474898,0.0928278629053506,{"iconUrl":{"data":"https://cdn-icons-png.flaticon.com/512/4781/4781517.png","index":0},"iconWidth":30,"iconHeight":30},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[49.4948863474898,49.4948863474898],"lng":[0.0928278629053506,0.0928278629053506]}},"evals":[],"jsHooks":[]}</script>
+<p>2 - Télécharger les données OSM</p>
+<div id="htmlwidget-6552eb64e88d3dafe7ef" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6552eb64e88d3dafe7ef">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[49.4948863474898,0.0928278629053506],14,[]],"calls":[{"method":"addProviderTiles","args":["Stamen.Toner",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircles","args":[[49.4886735,49.4885319,49.4959442,49.488892,49.4959043,49.4878846,49.4937852,49.4953533,49.48413,49.4841199,49.4841103,49.4839211,49.4839388,49.4841054,49.4841219,49.4839104,49.4841199,49.4840963,49.4841289,49.523373,49.52329,49.523338,49.52333,49.523531,49.523477,49.523385,49.523458,49.523499,49.523508,49.523609,49.523359,49.523405,49.523426,49.52342,49.4852847,49.487236,49.4901342,49.4843897,49.4896433,49.4912507,49.491788,49.4954301,49.4955521,49.4916205,49.491216,49.4906097,49.4909329,49.4902926,49.4902023,49.4938092,49.4923187,49.4893975,49.4896752,49.4878998,49.4879338,49.4880897,49.4882657,49.4884452,49.4882361,49.4920569,49.4932557,49.493618,49.4852172,49.5222125,49.4978426,49.4961244,49.4974658,49.4955436,49.4937248,49.4895835,49.4865276,49.4865694,49.494915,49.5021007,49.5000923,49.4881939,49.487273,49.4889736,49.4890904,49.4891583,49.4894117,49.4888987,49.4893046,49.487888,49.4870953,49.4952631,49.493482,49.4909023,49.4955644,49.49277,49.4886304,49.4953327,49.5024018,49.4961873,49.4956329,49.4973058,49.4969329,49.4978773,49.4981515,49.4986275,49.4987912,49.4980296,49.4970497,49.4971977,49.4977692,49.4964313,49.4963213,49.4954994,49.5027307,49.4897722,49.4912706,49.4912567,49.4919075,49.4908543,49.490901,49.4912847,49.4912081,49.5345452,49.4985285,49.4983861,49.4906453,49.489604,49.5152851,49.5038088,49.4870396,49.5216193,49.5219101,49.4933163,49.4857232,49.4877842,49.4951183,49.4904957,49.4901595,49.4889073,49.4893315,49.4917992,49.4893476,49.5026946,49.4960752,49.5042274,49.5041429,49.504068,49.504055,49.5040794,49.5040977,49.5041211,49.5041786,49.4972825,49.4904692,49.4850399,49.487692,49.4902033,49.5025858,49.5245772,49.5279176,49.4898848,49.4914704,49.4947158,49.483913,49.4860991,49.4863261,49.494149,49.4972893,49.4895341,49.5262463,49.5238607,49.4905543,49.4936779,49.5053232,49.4995445,49.4893608,49.486651,49.4907682,49.5135106,49.4874116],[0.1118583,0.114518,0.0939589,0.111979,0.0944645,0.112963,0.1041973,0.1031942,0.1393492,0.13935,0.1395625,0.1395773,0.1392514,0.1394142,0.1394129,0.1392537,0.139319,0.1385938,0.1393183,0.192142,0.192176,0.192435,0.192469,0.192278,0.192302,0.19222,0.192686,0.192692,0.192739,0.192698,0.192613,0.192592,0.192609,0.192662,0.1304838,0.1104376,0.1317753,0.1316298,0.1304707,0.1117954,0.1072499,0.0944788,0.0952473,0.1060443,0.1060113,0.1056197,0.1056469,0.105593,0.1037829,0.1030863,0.1246312,0.1052119,0.1113263,0.1118936,0.1117747,0.1116025,0.1114765,0.1130214,0.1131555,0.1348938,0.1165778,0.1164919,0.1291002,0.1906701,0.1117341,0.1122047,0.1096702,0.0968105,0.0965959,0.1052085,0.1104863,0.1105695,0.1212554,0.0957369,0.1343392,0.1128543,0.1134287,0.1123558,0.1126267,0.1128466,0.111847,0.1126857,0.1115001,0.1127502,0.1132328,0.1129646,0.1095792,0.0981588,0.0950502,0.1061143,0.1040088,0.1029305,0.0835879,0.0923487,0.0928193,0.0914269,0.0917595,0.090976,0.0907643,0.0903848,0.0902467,0.090857,0.091671,0.0915261,0.0910675,0.0921726,0.0922629,0.0929172,0.0856622,0.1079563,0.1040108,0.1041797,0.1172849,0.1182185,0.1168666,0.1164266,0.116408,0.146263,0.1680789,0.1680736,0.1053297,0.1113284,0.1630241,0.1208748,0.1451174,0.1138196,0.1141032,0.1244227,0.1314121,0.1129201,0.1257177,0.1309048,0.1322611,0.1083263,0.1070975,0.097404,0.1060178,0.0857757,0.0924543,0.0778247,0.0781774,0.0781412,0.0779937,0.0780945,0.0780197,0.0778502,0.0777825,0.0946212,0.1056079,0.1314434,0.1102391,0.1062813,0.08551,0.1910863,0.1897654,0.1038793,0.1186598,0.1229456,0.138598,0.1093062,0.1074632,0.1103287,0.0981092,0.1113439,0.1883035,0.1917864,0.1049781,0.1254902,0.1787956,0.1707735,0.112953,0.1107913,0.105633,0.1627752,0.112127],10,null,"restaurant",{"interactive":true,"className":"","stroke":true,"color":"blue","weight":5,"opacity":1,"fill":"blue","fillColor":"blue","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[49.4948863474898,0.0928278629053506,10,null,"Ma position",{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":1,"fill":"red","fillColor":"red","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addLayersControl","args":[[],["Ma position","Station de bus"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addLegend","args":[{"colors":["red; width:20px; height:20px","blue; width:20px; height:20px"],"labels":["<div style='display: inline-block;height: 20px;margin-top: 4px;line-height: 20px;'>Ma position<\/div>","<div style='display: inline-block;height: 20px;margin-top: 4px;line-height: 20px;'>restaurant<\/div>"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"topright","type":"unknown","title":null,"extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[49.4839104,49.5345452],"lng":[0.0777825,0.192739]}},"evals":[],"jsHooks":[]}</script>
+<p>3 - Traiter les données (zone tampon, distance, intersection)</p>
+<div id="htmlwidget-10d98fa3d77e8848d7cc" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-10d98fa3d77e8848d7cc">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["Stamen.Toner",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addPolygons","args":[[[[{"lng":[0.106616532837382,0.106624090588217,0.106593834148821,0.106525847482968,0.106420317955593,0.106277535808091,0.10609789335191,0.105881883882788,0.105630100318718,0.105343233565486,0.105022070614349,0.104667492377188,0.104280471265122,0.103862068517335,0.103413431287451,0.102935789495549,0.102430452454448,0.101898805279552,0.101342305092115,0.100762477026325,0.10016091005115,0.0995392526183622,0.0988992081486533,0.098242530368139,0.0975710185079987,0.0968865123803255,0.0961908873435951,0.095486049171479,0.0947739288389587,0.0940564772399168,0.0933356598505964,0.092613451353404,0.0918918302357008,0.0911727733782543,0.0904582506480442,0.0897502195101469,0.0890506196733195,0.0883613677838526,0.0876843521821274,0.0870214277361248,0.0863744107659522,0.0857450740732154,0.0851351420887576,0.0845462861520002,0.0839801199347606,0.0834381950220288,0.0829219966617845,0.082432939695471,0.0819723646802632,0.0815415342137493,0.0811416294711349,0.0807737469644471,0.0804388955326946,0.0801379935712394,0.0798718665080869,0.0796412445340298,0.079446760592979,0.0792889486380773,0.0791682421584678,0.079084972980857,0.0790393703492847,0.0790315602857328,0.0790615652334336,0.0791293039840112,0.0792345918887391,0.0793771413534917,0.0795565626161409,0.0797723648043927,0.0800239572712652,0.0803106512046734,0.0806316615068115,0.0809861089382529,0.0813730225210114,0.0817913421940195,0.0822399217138371,0.0827175317926688,0.0832228634651501,0.0837545316746975,0.0843110790695973,0.0848909799984464,0.0854926446939763,0.0861144236337681,0.0867546120658753,0.0874114546868987,0.0880831504596325,0.0887678575569996,0.0894636984186574,0.0901687649063105,0.0908811235435056,0.0915988208254437,0.092319888584128,0.0930423493940535,0.0937642220034664,0.0944835267762038,0.0951982911290736,0.0959065549497311,0.0966063759800976,0.0972958351504406,0.0979730418493656,0.0986361391151904,0.0992833087343575,0.0999127762328069,0.100522815746562,0.101111754758086,0.10167797868538,0.102219935311168,0.102736139040016,0.103225174971662,0.103685702779393,0.104116460382834,0.104516267405083,0.104884028404758,0.105218735874108,0.105519472995052,0.105785416145612,0.10601583714998,0.10621010526611,0.106367688905483,0.106488157080431,0.106571180575159,0.106616532837382],"lat":[49.4952163809564,49.4947458783647,49.4942757626925,49.4938073224677,49.4933418415926,49.492880595826,49.4924248492871,49.4919758509921,49.4915348314324,49.491102999204,49.4906815376969,49.4902716018542,49.4898743150092,49.4894907658096,49.4891220052362,49.4887690437263,49.4884328484069,49.4881143404478,49.4878143925398,49.4875338265066,49.4872734110554,49.4870338596732,49.4868158286749,49.4866199154066,49.4864466566121,49.4862965269637,49.4861699377637,49.4860672358193,49.4859887024938,49.4859345529368,49.4859049354957,49.4858999313099,49.4859195540886,49.4859637500738,49.4860323981868,49.4861253103599,49.4862422320505,49.4863828429377,49.4865467577984,49.4867335275611,49.4869426405351,49.4871735238097,49.487425544822,49.4876980130881,49.487990182092,49.4883012513286,49.4886303684947,49.4889766318213,49.4893390925419,49.4897167574897,49.4901085918162,49.4905135218243,49.490930437908,49.491358197591,49.4917956286547,49.4922415323493,49.4926946866762,49.4931538497361,49.4936177631306,49.4940851554104,49.4945547455585,49.4950252465011,49.4954953686346,49.4959638233606,49.4964293266175,49.4968906024016,49.4973463862648,49.4977954287818,49.4982364989768,49.498668387699,49.4990899109395,49.4994999130788,49.4998972700571,49.5002808924587,49.5006497285003,49.5010027669181,49.5013390397423,49.501657624954,49.5019576490161,49.5022382892703,49.5024987761965,49.5027383955243,49.5029564901947,49.5031524621637,49.5033257740446,49.5034759505834,49.503602579964,49.503705314939,49.5037838737832,49.5038380410674,49.50386766825,49.503872674085,49.5038530448449,49.5038088343586,49.5037401638637,49.5036472216731,49.5035302626582,49.503389607549,49.5032256420531,49.5030388157965,49.5028296410891,49.502598691518,49.5023466003722,49.5020740589042,49.5017818144321,49.5014706682876,49.5011414736167,49.5007951330375,49.5004325961629,49.500054856994,49.4996629511926,49.4992579532388,49.498840973483,49.4984131550993,49.4979756709492,49.4975297203643,49.4970765258568,49.4966173297663,49.496153390853,49.495685980846,49.4952163809564]}]]],null,"Zone tampon",{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.5,"fill":true,"fillColor":"red","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircles","args":[[49.4959442,49.4959043,49.4937852,49.4953533,49.4954301,49.4955521,49.4902023,49.4938092,49.4955436,49.4937248,49.5021007,49.4909023,49.4955644,49.49277,49.4953327,49.4961873,49.4956329,49.4973058,49.4969329,49.4978773,49.4981515,49.4986275,49.4987912,49.4980296,49.4970497,49.4971977,49.4977692,49.4964313,49.4963213,49.4954994,49.4912706,49.4912567,49.4917992,49.4960752,49.4972825,49.4898848,49.4972893],[0.0939589,0.0944645,0.1041973,0.1031942,0.0944788,0.0952473,0.1037829,0.1030863,0.0968105,0.0965959,0.0957369,0.0981588,0.0950502,0.1061143,0.1029305,0.0923487,0.0928193,0.0914269,0.0917595,0.090976,0.0907643,0.0903848,0.0902467,0.090857,0.091671,0.0915261,0.0910675,0.0921726,0.0922629,0.0929172,0.1040108,0.1041797,0.097404,0.0924543,0.0946212,0.1038793,0.0981092],10,null,"Restaurant à proximité",{"interactive":true,"className":"","stroke":true,"color":"blue","weight":5,"opacity":1,"fill":"blue","fillColor":"blue","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addCircles","args":[49.4948863474898,0.0928278629053506,10,null,"Ma position",{"interactive":true,"className":"","stroke":true,"color":"yellow","weight":5,"opacity":1,"fill":"yellow","fillColor":"yellow","fillOpacity":0.2},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null,null]},{"method":"addLayersControl","args":[[],["Ma position","Restaurant à proximité","Zone tampon"],{"collapsed":false,"autoZIndex":true,"position":"topright"}]},{"method":"addLegend","args":[{"colors":["red; width:20px; height:20px","yellow; width:20px; height:20px","blue; width:20px; height:20px"],"labels":["<div style='display: inline-block;height: 20px;margin-top: 4px;line-height: 20px;'>Zone tampon<\/div>","<div style='display: inline-block;height: 20px;margin-top: 4px;line-height: 20px;'>Ma position<\/div>","<div style='display: inline-block;height: 20px;margin-top: 4px;line-height: 20px;'>Restaurant<\/div>"],"na_color":null,"na_label":"NA","opacity":0.5,"position":"topright","type":"unknown","title":null,"extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[49.4858999313099,49.503872674085],"lng":[0.0790315602857328,0.106624090588217]}},"evals":[],"jsHooks":[]}</script>
+<p>4 - Réaliser quelques statistiques (x2 pour une zone tampon de 2500
+et 5000 mètres)</p>
+<pre><code>##              src        dst duration distance
+## 1_2111225778   1 2111225778 14.79833   1.1097
+##                                                                                                                                                                                                                                                                                                                geometry
+## 1_2111225778 0.09288999, 0.09320000, 0.09418000, 0.09595000, 0.09601000, 0.09753000, 0.09765000, 0.09810000, 0.10622000, 0.10623000, 0.10634000, 0.10633000, 49.49481964, 49.49491882, 49.49371719, 49.49369812, 49.49361801, 49.49353790, 49.49345016, 49.49338913, 49.49312973, 49.49300766, 49.49300766, 49.49275970</code></pre>
+<p>Votre rendu doit faire quatre pages maximum et est à envoyer au plus
+tard le 9 décembre 2022 à votre enseignant.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

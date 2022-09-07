@@ -1,0 +1,70 @@
+---
+title: " "
+output: html_document
+---
+
+<style>
+body {text-align: justify}
+</style>
+
+```{r knitr_init, echo=FALSE, message=FALSE, warning=FALSE, cache=FALSE}
+library(knitr)
+library(rmdformats)
+library(kableExtra)
+library(ggplot2)
+library(leaflet)
+
+load("results_rattrapage.RData")
+```
+
+![](images/EXO_MASTER1.png)
+
+l'objectif de cet exercice est d'étudier l'offre de restaurantion à proximité d'une position aléatoire sur le territoire français.
+
+### ***Etapes***  
+1 - Créer et spatialiser un point à Rouen  
+2 - Télécharger les données OSM (Restaurant, fastfood, ...)
+
+```{r eval=F, echo=T}
+database <- osmdata::getbb("Le Havre") %>% 
+  osmdata::opq() %>% 
+  osmdata::add_osm_feature(key = "amenity", value = c("restaurant"))
+```
+3 - Traiter les données (zone tampon de 1000 mètres, intersection)  
+4 - Réaliser quelques statistiques 
+    * Boîte à moustaches des distances entre le point et les restaurants  
+    * Déterminer le temps de parcours vers le restaurant le plus proche ainsi que la distance à parcourir. Puis effectuer les mêmes opération pour le restaurant le plus proche. 
+    * Nombre de restaurants à proximité ....
+    
+### ***Données (Inputs)***    
+- *From scratch*  
+- Librairies nécessaires  **sf**, **osrm**, **osmdata**, **dplyr**, **ggplot2**  
+
+### ***Résultats (Outputs)***  
+
+1 - Créer et spatialiser un point  de manière aléatoire sur le territoire français
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+results$location
+```
+
+2 - Télécharger les données OSM
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+results$restaurant
+```
+
+3 - Traiter les données (zone tampon, distance, intersection)  
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+results$intersects
+```
+
+4 - Réaliser quelques statistiques (x2 pour une zone tampon de 2500 et 5000 mètres)  
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+results$roadmax
+```
+
+Votre rendu doit faire quatre pages maximum et est à envoyer au plus tard le 9 décembre 2022 à votre enseignant.
+
