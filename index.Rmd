@@ -51,7 +51,7 @@ database <- osmdata::getbb("Rouen") %>%
 - Un texte décrivant la chaîne de traitements et les statistiques    
 - Une cartographie des résultats (ggplot, ggmap, sf, ...)
 
-`r emo::ji("warning")` Votre rendu doit faire quatre pages maximum et est à déposer au plus tard le  `r emo::ji("date")` 31 décembre 2021 sur [Universitice](https://universitice.univ-rouen.fr)  
+Votre rendu doit faire quatre pages maximum et est à déposer au plus tard le 31 décembre 2021 sur [Universitice](https://universitice.univ-rouen.fr)  
 
 ### ***Exemple***  
 

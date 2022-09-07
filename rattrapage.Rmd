@@ -1,6 +1,8 @@
 ---
-title: " "
-output: html_document
+title: ' '
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 <style>
@@ -23,7 +25,7 @@ l'objectif de cet exercice est d'étudier l'offre de restaurantion à proximité
 
 ### ***Etapes***  
 1 - Créer et spatialiser un point à Rouen  
-2 - Télécharger les données OSM (Restaurant, fastfood, ...)
+2 - Télécharger les données OSM
 
 ```{r eval=F, echo=T}
 database <- osmdata::getbb("Le Havre") %>% 
@@ -34,7 +36,9 @@ database <- osmdata::getbb("Le Havre") %>%
 4 - Réaliser quelques statistiques 
     * Boîte à moustaches des distances entre le point et les restaurants  
     * Déterminer le temps de parcours vers le restaurant le plus proche ainsi que la distance à parcourir. Puis effectuer les mêmes opération pour le restaurant le plus proche. 
-    * Nombre de restaurants à proximité ....
+    * Nombre d'établissements à proximité ....
+    
+5 - Appliquer ce tratiement pour les fastfood, pub et les bars
     
 ### ***Données (Inputs)***    
 - *From scratch*  
